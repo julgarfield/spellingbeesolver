@@ -40,11 +40,13 @@ for word in data:
 
 # main loop
 while running:
-    letters = [letter for letter in input("Enter your letters:\n").lower() if letter.isalpha()]
+    letters = [letter for letter in input("Please enter your letters:\n").lower() if letter.isalpha()]
     if len(set(letters)) != 7:
+        print("Please enter 7 unique letters.")
         continue
-    center = input("Which letter is in the center?\n").lower()
+    center = input("Which letter is in the center?\n").lower().strip()
     if center not in letters:
+        print("Please make sure the center letter is one of the 7 letters.")
         continue
     results = []
     dictionary.search(dictionary.root, "", results, letters, center)
