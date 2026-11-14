@@ -16,7 +16,7 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    #insert
+    #insert function
     def insert(self, word: str) -> None:
         node = self.root
         for char in word.lower():
@@ -25,6 +25,14 @@ class Trie:
             node = node.children[char]
         node.isEndOfWord = True
 
+    #search function
+    def search(self, node, current_word, results_list, allowed_letters, center_letter):
+        if (node.isEndOfWord == True and len(current_word) >= 4 and center_letter in current_word):
+            results_list.append(current_word)
+        for char in node.children:
+            if char in allowed_letters:
+                self.search(node.children[char], current_word + char, results_list, allowed_letters, center_letter)
+
 #dictionary trie
 dictionary = Trie()
 for word in data:
@@ -32,4 +40,13 @@ for word in data:
 
 # main loop
 while running:
-    letters = [letter for letter in input("Enter your letters:\n") if letter.isalpha()]
+    letters = [letter for letter in input("Enter your letters:\n").lower() if letter.isalpha()]
+    if len(set(letters)) != 7:
+        continue
+    center = input("Which letter is in the center?\n").lower()
+    if center not in letters:
+        continue
+    results = []
+    dictionary.search(dictionary.root, "", results, letters, center)
+    print(results)
+    running = False
